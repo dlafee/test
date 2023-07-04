@@ -1,0 +1,2359 @@
+﻿Article Name,Article name *as a question*,Article Link,Slack/Teams,Article Text
+Adding new Admins,,https://attendancebot.freshdesk.com/a/solutions/articles/17000093468,General,"1. To add new Admins to AttendanceBot, please head to your Settings Panel by sending the command ""settings"" to the bot.
+
+2. Once you’re in your Settings Panel, please head to Settings-->Basic Settings page and scroll down to ""Other Settings"" section. You can then enter the username/select the names from the dropdown to add more admins.
+
+
+
+
+"
+API Documentation,,https://attendancebot.freshdesk.com/a/solutions/articles/17000109563,General,"AttendanceBot API uses unique team identifier and auth token to authenticate requests. API is in closed beta right now and we are rolling it out slowly. 
+
+
+
+If you're interested, please write to Sarah@harmonizehq.com and we will add you to the beta list.
+
+
+
+Leave Records API - To fetch leave records of employees.
+
+GET https://www.attendancebot.com/api/report/leave/
+
+Query Parameters
+
+team - unique identifier of the workspace (required)
+auth - authorization token (required)
+from - start date range (optional), dd/mm/yyyy or mm/dd/yyyy based on your setting preference on AttendanceBot dashboard
+to - end date range (optional), dd/mm/yyyy or mm/dd/yyyy based on your setting preference on AttendanceBot dashboard
+department_id - to fetch leaves of a single department (optional)
+
+Sample JSON Response
+
+{
+""data"": [
+{
+""Department Id"": 61,
+""Remote Location"": """",
+""Employee Name"": ""ABC XYZ"",
+""Leave Type"": ""Annual"",
+""Approved By"": ""PQRS XYZ"",
+""Approved at"": ""02/04/2020"",
+""Email"": ""ABC@email.com"",
+""Department"": ""Support"",
+""Department Name"": ""Support"",
+""Leave Duration"": ""Full day"",
+""Office"": ""LA"",
+""Remark"": """",
+""Leave Date"": ""06-04-2020""
+}
+],
+""ok"": true
+}
+
+Response Codes
+
+200 - Success
+400 - Bad Input parameter
+
+
+
+
+Leave Balance API - To fetch leave balance of employees.
+
+GET https://www.attendancebot.com/api/leavebalance/
+
+Query Parameters
+
+team - unique identifier of the workspace (required)
+auth - authorization token (required)
+email - email address of the employee (optional)
+leave_type - leave for which balance is needed (optional)
+page - page number, incase fetching for full workspace (optional)
+
+Sample JSON Response
+
+{
+""data"": [
+{
+""balances"": [
+{
+""balance"": 8,
+""annual_leave_count"": 10,
+""leave_type"": ""sick"",
+""unlimited_balance"":false
+}
+],
+""id"": 19,
+""name"": ""ABC XYZ""
+}
+],
+""next_page"": 5,
+""page"": ""Page 4 of 9"",
+""ok"": true
+}
+
+Response Codes
+
+200 - Success
+400 - Bad Input parameter
+
+
+
+
+Department API - To fetch list of all departments.
+
+GET https://www.attendancebot.com/api/departments/
+
+Query Parameters
+
+team - unique identifier of the workspace (required)
+auth - authorization token (required)
+
+Sample JSON Response
+
+{
+departments: [
+{
+id: 1,
+name: ""Engineering""
+},
+{
+id: 2,
+name: ""Marketing""
+},
+{
+id: 3,
+name: ""Customer Success""
+},
+{
+id: 4,
+name: ""Design""
+}
+],
+ok: true
+}
+
+Response Codes
+
+200 - Success
+400 - Bad Input parameter
+
+
+
+
+Timesheet API - To fetch people hours.
+
+GET https://www.attendancebot.com/api/report/people_timesheet/
+
+Query Parameters
+
+team - unique identifier of the workspace (required)
+auth - authorization token (required)
+from - from date (required), dd/mm/yyyy or mm/dd/yyyy based on your setting preference on AttendanceBot dashboard
+to - to date (required), dd/mm/yyyy or mm/dd/yyyy based on your setting preference on AttendanceBot dashboard
+email - email of employee (optional)
+
+Sample JSON Response
+
+{
+ok: true,
+data: [
+{
+total_hour_work: ""10 Hrs 30 Mins"",
+name: ""Ronak Bansal"",
+total_daily_overtime: ""00 Hrs 00 Mins"",
+range_data: [
+{
+hours_worked: ""10:30"",
+total_free_time: ""00:00"",
+date: ""08/28/2020"",
+overtime: ""00:00"",
+single_day: ""Friday"",
+day_month: ""28 Aug""
+},
+{
+hours_worked: ""00:00"",
+total_free_time: ""00:00"",
+date: ""08/29/2020"",
+overtime: ""00:00"",
+single_day: ""Saturday"",
+day_month: ""29 Aug""
+},
+{
+hours_worked: ""00:00"",
+total_free_time: ""00:00"",
+date: ""08/30/2020"",
+overtime: ""00:00"",
+single_day: ""Sunday"",
+day_month: ""30 Aug""
+}
+],
+email: ""ronakbansal@gmail.com""
+]
+}
+}
+
+Response Codes
+
+200 - Success
+400 - Bad Input parameter
+
+
+
+Punches API - To get detailed punches.
+
+GET https://www.attendancebot.com/api/report/timesheet/
+
+Query Parameters
+
+team - unique identifier of the workspace (required)
+auth - authorization token (required)
+from - from date (required), dd/mm/yyyy or mm/dd/yyyy based on your setting preference on AttendanceBot dashboard
+to - to date (required), dd/mm/yyyy or mm/dd/yyyy based on your setting preference on AttendanceBot dashboard
+
+Sample JSON Response
+
+{
+ok: true,
+data: 
+[
+{
+Source: """",
+Client: ""CLIENT1"",
+Project: ""project1"",
+Timestamp: ""28-08-2020 13:30:00"",
+Action Type: ""In"",
+Duration (HH:MM): """",
+Employee Name: ""Ronak Bansal"",
+Remark: """",
+Total Day Duration (including lunch) (HH:MM): """"
+},
+{
+Source: ""Day Change"",
+Client: """",
+Project: """",
+Timestamp: ""28-08-2020 23:59:59"",
+Action Type: ""Out"",
+Duration (HH:MM): ""10:30"",
+Employee Name: ""Ronak Bansal"",
+Remark: """",
+Total Day Duration (including lunch) (HH:MM): ""10:30""
+},
+{
+Source: ""Day Change"",
+Client: ""CLIENT1"",
+Project: ""project1"",
+Timestamp: ""29-08-2020 00:00:00"",
+Action Type: ""In"",
+Duration (HH:MM): """",
+Employee Name: ""Ronak Bansal"",
+Remark: """",
+Total Day Duration (including lunch) (HH:MM): """"
+}
+]
+}
+
+Response Codes
+
+200 - Success
+400 - Bad Input parameter
+"
+Applying & Deleting leaves : Quick summary,,https://attendancebot.freshdesk.com/a/solutions/articles/17000115833,General,"APPLYING LEAVES
+
+
+
+1. To understand how to apply for leaves, please head to this link for the help article
+
+2. For Slack: Managers can also apply for a leave on behalf of their reportee by typing in the command ""Apply leave @Username"" and follow the steps mentioned in the help article above.
+
+
+
+
+
+3. For MS teams: Managers can simply type in the command ""Apply leave @Username"" followed with the date and hitting ""Confirm""
+
+
+
+Similar command can be entered by managers who are using G Chat
+
+
+
+
+
+Please note, such leave requests don't go for approval as the manager is only applying for it.
+
+
+
+DELETING LEAVES
+
+1. Type in the command ""Delete"" into the AttendanceBot and it will populate all the upcoming leaves that can be deleted
+
+
+
+Slack:
+
+
+
+MS Teams: 
+
+
+
+
+
+
+
+2. Please note that past leaves can only be deleted by managers. They can simply type in the command ""Delete @username"" and all the past & future leaves of the particular employee will be enlisted.
+
+
+
+Slack:
+
+
+
+MS teams:
+
+
+
+G Chat:
+
+
+
+
+
+
+
+
+
+Didn't find what you are looking for, just type dialm and we'll help you out right there."
+Approval routing and multi-level approvals,,https://attendancebot.freshdesk.com/a/solutions/articles/17000121266,General,"From Approval Settings on your dashboard, you can specify where approvals are routed, how many levels of approval you'd like, and whether each step of notification requires approval or simply fyi notice. These settings are particularly valuable for organizations with a central administrator OR large organizations that want additional approval controls.
+
+
+
+Here's how to navigate the page:
+
+Approvals versus Notifications
+The Approvals flow governs all types of leave that require approval, while the Notifications flow governs types of leave that are auto-approved (require no approval).
+However, note that within the approval flow, each additional level can be set as fyi-only, so you may use the approvals flow to configure multiple tiers of notifications rather than extending the approval process.
+Levels
+Levels must be turned ""on"" using the toggle to activate
+Each level represents a contingent subsequent step, and only occurs once the prior level has been resolved. For approvals, this means that additional approvals are only sent after the prior approve has been complete, so no simultaneous approvals are possible.
+Recipients
+Manager: The default recipient is always ""manager"" and always refers to the prior level. Level 1 manager will always be the manager of the requesting users, and level 2 manager will be the manager of the level 1 approver, and so on up the hierarchy.
+Custom: If you'd like a single specific users to be notified or approve, select the custom dropdown. This allows only one user per level, and is typically used to route approvals/fyis to a central admin or department lead, like HR, IT, or Finance.
+Tip: 
+
+video reference
+
+
+
+
+
+
+
+Give this a try & let us know if you face any challenges setting these up by reaching out to our support team.
+
+"
+Configure Calendar Permissions,,https://attendancebot.freshdesk.com/a/solutions/articles/17000124502,General,"To make sure users in your team have the right visibility to colleague leaves, calendars, and punch status, AttendanceBot admins can set viewing permissions right in the vacation calendar.
+
+There are six viewing access options available to be configured, set independently for each of the three permission levels (admin, manager, reportee):
+
+Company-wide: This is the default.. When enabled, users will be able to view the calendar for everyone in the company.
+Department-wide: This will let users view the calendar of all the employees who are in the same department. (To set this up, first, create departments and then tag the employees with their respective departments).
+Office-wide: This will let users view the calendar of all the employees who are in the same office. (To set this up, first, create offices and then tag the employees with their respective offices).
+Tree Team-wide: This will let users view the calendar of their direct managers, direct peers, and tree reportees. Tree reportees are all the reportees of reportees till the last branch.
+Team-wide: This will let users view the calendar of their direct managers and reportees.
+Self only: This will let users view their own calendars only.
+
+
+To configure for your team, head to the settings panel & navigate to the Vacation Management >> Calendar >> Configure button.
+
+
+
+
+
+Select the desired configuration for each user type:
+
+
+
+
+
+Once done then close the pop-up menu & the settings will be saved for your team. 
+
+
+
+Give this a try & if you face any issues configuring this feel free to write to our support desk at sarah@harmonizehq.com.
+
+"
+Copy Shift,,https://attendancebot.freshdesk.com/a/solutions/articles/17000092759,General,"1To Copy Shift created for a user in AttendanceBot, please head to your Settings Panel by typing settings to the bot. Once you are in the Settings Panel, please navigate to Time Tracking-->Shift Management-->Create & View shifts and there you will see a weekly view of the shifts created for different users in your team.
+
+Follow these steps to Copy Shift created for a user :
+
+
+1. Click on the Copy Shift button present right above the shifts view.
+
+
+
+
+
+2. A dialogue box will open where you need to select a user from the dropdown list, for whom you wish to copy the shift, the SOURCE DATE and the TARGET DATE. You can also select a SHIFT ATTRIBUTE, if they are configured for your team. It will be visible as People, by default. It usually takes a couple of minutes to copy the shift and it will notify the user, on Slack, that his shift is copied.
+
+
+
+
+
+Refer to this tutorial video for better understanding:
+
+
+
+
+
+Note: To learn about the process of creating shifts for your team members, refer to this article. "
+Future balance deduction against payroll versus instant deduction,,https://attendancebot.freshdesk.com/a/solutions/articles/17000131738,General,"By default, AttendanceBot allows you a complete flexibility to apply leave on a future date (be it few months or next year) and leave balance is deducted at time of accrual period rather than instantaneously. 
+
+
+
+How you can think about this default setting is that rather than deducting leave immediately, AttendanceBot keeps track and deducts only when the relevant payroll cycle runs. Here are a couple examples:
+
+
+
+- For yearly accrual: if you request a date next year, the balance will be deducted from the next year's leave balance. If it's August and you wish to apply for leave in Jan next year, it will be deducted once the leave balance is accrued for the new year and not from current year's leave balance.
+
+
+
+- For monthly accrual: if you request a date next month, the balance will be deducted when accrual runs next month. If it's January and you request September leave, balance won't be deducted until 1st Sep when accrual runs.
+
+
+
+
+
+NOTE:
+
+If you wish to turn this setting off, please reach out to our customer support team by typing ""dialm"" and submitting a ticket or visiting our website to initiate a chat with us. If turned off, leave balance will be deducted instantly at that very moment of approval."
+Generate Report for a particular user in your team for a specific duration,,https://attendancebot.freshdesk.com/a/solutions/articles/17000093467,General,"For Slack
+
+1. To generate a report in AttendanceBot for a specific user of your team, please type the command report to the AttendanceBot. Select the report type as ""Timesheet Report"", duration as ""Custom"" & enter the
+
+date range. 
+
+Now, set the employee filter to specific user, select the employee from the dropdown list and hit Confirm.
+
+
+
+
+
+2. You can download it by hovering over to the report and click on the Download button.
+
+
+
+
+
+For MS Teams:
+
+1. Type in the command ""report"" into the AttendanceBot and follow the prompt.
+
+
+
+2. Select the report type as ""Timesheet Report"", duration as ""Custom"" & enter the date range. Now, set the employee filter to specific user, select the employee from the dropdown list and hit Generate.
+
+
+
+3. Head to the generated link to view the report
+
+
+
+"
+How do I change my credit card details?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000105338,General,"To update your credit card on file, please follow these steps:
+
+1. Type settings as a direct message to the bot and click on the settings dashboard link to open your Settings Panel.
+
+
+2. Once you are in your Settings Panel, navigate to the Settings-->Subscription page which contains all the relevant information about your subscription.
+
+3. Click on the Update button which will redirect you to a new page where you can update your card information.
+"
+How do I download past invoice or receipt?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000131565,General,"Please get in-touch with our support team by raising a ticket with us and starting a live chat. 
+
+Just share the month or the invoice number and we will share it with you over email. 
+
+
+
+How to check the invoice number for specific month?
+
+Head to the settings dashboard by typing ""Settings"" as a direct message to the app and click on the link prompted. 
+
+Settings tab --> subscription and you can find the invoice number for a specific month. 
+
+
+
+If you want to retrieve a receipt, you can share the invoice number with us and we will sent it across."
+How do I learn more about the product?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000118265,General,"You are at the right place. All of AttendanceBot functionality is documented on this support portal.
+
+
+
+To get a quick list of commands, type ""help"" to AttendanceBot as a direct message (DM).
+
+
+
+
+
+At a high level, AttendanceBot has two key functionalities.
+
+Leave tracking - This lets you apply for time off, let you inform your team when you working from home or from a remote office. All of these features are documented in the Vacation Tracking section of all the respective platforms i.e Slack, MS Teams, G Chat 
+Time tracking - This lets you clock-in and clock-out and track how much time you are sending at work. All of these features are documented in the Time Tracking section all the respective platforms i.e Slack, MS Teams, G Chat
+
+
+You can reach our support team for any questions or suggestions.
+
+"
+How do I setup lunch hours for my team?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000093813,General,"1. To setup lunch hours in AttendanceBot, head to your Settings Panel by typing settings to AttendanceBot.
+
+2. Once you are in, please head to the Time Tracking-->General Time Settings page and scroll down to configure the following :
+
+Lunch Duration in Minute.
+
+Break duration in minute
+
+Include lunch in work hours
+
+Include breaks in work hours"
+How do we reach support?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000118264,General,"You can reach support one of 3 ways:
+
+The best way to reach the support team is by saying ""dialm"" (our favorite) to AttendanceBot as a direct message (DM). This would connect you to someone on our team for a real time chat.
+Send an email to support@attendancebot.freshdesk.com or hi@harmonizehq.com.
+Since you are already here, you can simply click on ""New support ticket"" 
+"
+How does adding or removing users affect my billing?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000104046,General,"AttendanceBot gives you complete flexibility over adding or removing users from your existing plan at any time. Depending on whether you are on a monthly plan or an annual plan, the impact on your billing might differ.
+
+Monthly Subscription
+
+
+Adding New Users: Whenever you add new users to your team, you are charged for those users in your bill for the subsequent month. For example, if you have 20 active users in your team and add 10 additional users in your team at any time during the month, you will be charged for a total of 30 users in the bill for the subsequent month.
+
+Removing Existing Users: Whenever you remove users from your team, your bill is adjusted by taking into account the updated number of active users in your team in the subsequent month. For example, if you are paying $100 for 20 users in your team and you deactivate 10 users during the month, you will be charged $50 for a total of 10 users in the bill for the subsequent month.
+
+We keep a track of the users in your team and bill you only for the active users each month. Your monthly bill is based on the number of active users at the start of the month.
+
+Annual Subscription
+
+In case of an annual subscription, you are given credits for the amount you paid initially for the subscription. These credits gets adjusted automatically in case of adding or removing users from your team.
+
+Adding New Users: When you add new users, the credits allocated to you are utilized against the new total users in your team and your subscription expires prior to the completion of your 1 year contract. In this case, we charge you before your next invoice due date for the active users in your team. Let's consider two cases as examples:
+
+Case 1: 
+1. You subscribe to AttendanceBot Annual plan on January 1st 2020 for 100 users.
+2. You add another 100 users the same day which makes the total active users in your team to 200.
+3. This change in the total active users would expire your annual contract in 6 months on July 1st 2020 as opposed to January 1st 2021.
+
+Case 2:
+1. You subscribe to AttendanceBot on January 1st 2020 for 100 users.
+2. On July 1st 2020, you add another 100 users in your team.
+3. This change in the total active users, after 6 months from the subscription date, would cut down the remaining months in your contract to half and your contract will expire in 9 months from the date of subscription.
+
+Removing Existing Users: When you remove existing users, the credits allocated to you are utilised against the new total users in your team and your subscription gets extended automatically and you can continue to use AttendanceBot post the completion of your 1 year contract from your initial payment date. Let's take the following case as an example:
+
+1. You subscribe to AttendanceBot on January 1st 2020 for 100 users.
+2. After 6 months, that is on July 1st 2020, you remove 50 users from your team and the total active users in your team stands at 50.
+3. The remaining term of your contract will get doubled from 6 months to 12 months that is your contract will expire on July 1st 2021 as opposed to January 1st 2021.
+
+We keep a track of the active users in your team and automatically adjust your credits each month whenever a new user is added or an existing user is removed from your team.
+
+You can check all these details about your subscription by visiting the Subscription page of your Settings Panel. To head over to the Subscription page, please type settings as a direct message to the bot and follow the link to your Settings Panel.
+
+
+Once you are in your Settings Panel, click on the Settings-->Subscription option to open your Subscription page.
+
+
+"
+How does timesheet approvals work?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000134394,General,"Managers can now seamlessly review and approve timesheets (weekly, biweekly, or monthly) of their reportees. You can find the timesheet approval page in the Time Tracking section of the settings dashboard. 
+
+
+
+
+
+
+
+To review timesheets for individual employees, click on the ""Expand"" button present on the employee tile and select the period for which you would like to review the punches. Expanding each period you'll find daily summaries, and choosing to ""Review"" each day will show individual employee punches, similar to the Edit Timesheet screen. These tiers allow you to quickly zoom in and out of timesheet ranges to review and investigate.
+
+
+
+
+
+
+
+To approve timesheets just click on the ""Approve timesheet"" button for that specific pay period, which locks the timesheet from further editing. You'll have the option to bulk approve across employees or across multiple timesheets for a given employee by selecting ""Approve all selected"" 
+
+
+
+Note: the ""timesheet tenure"" toggle near the top differentiates timesheets with separate approval cycles. If you have only one approval cycle (e.g. weekly) then you should only see the one option and can safely ignore. If you have multiple - e.g. employees across regions with weekly, biweekly, and monthly overtime calculation rules - then you'll need to toggle between these periods to view and approved relevant timesheets by cycle.
+
+
+
+
+
+Finally, you can reference historical approved timesheets in the approval log, which is the second tab of the approval page. The approval log is identical in format, but is purely for view access.
+
+
+
+Once the approval process is complete, csv reporting with identify approval data as well. 
+
+
+
+
+
+
+
+Note: You can turn on automatic manager alerts for unapproved timesheets, but currently this setting must be enabled by our internal team. Feel free to request by emailing sarah@harmonizehq.com, chatting support, or contacting our team on any channel.
+
+"
+How to change admin of the account?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000131567,General,"If you wish to change the primary admin of the account, please get in-touch with your support team by raising a ticket with us (Type ""Dialm as a message to the app) or reach out to us through our live chat support. 
+
+
+
+
+
+If you want to add secondary admins to the account, just head to the settings dashboard by typing ""Settings"" as a direct message to the app and click on the URL prompted. 
+
+Once you open the dashboard, please scroll on the basic settings page --> other settings --> Administrator 
+
+You can search for the person and select the name from the dropdown menu. 
+
+
+
+"
+How to configure overtime and time off in lieu (TOIL) rules?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000106516,General,"AttendanceBot lets you define regular hours so you can track and pay time worked beyond ordinary hour thresholds. Each set of overtime rules can be configured separately by office or by individual.
+
+
+
+For most teams, office-by-office configuration is best and allows you to set rules based on regional requirements (like for California employees). Office configuration happens directly in the overtime dashboard.
+
+At the top left you'll choose which office you're configuring from the office dropdown - if no offices have been created, you'll have to set rules universally.
+You may select between any or all of daily, daily double, consecutive daily, or weekly overtime thresholds. These define both how and when overtime is calculated.
+For time off in lieu (TOIL) you may choose between daily or weekly calculation - daily double and consecutive daily will not apply.
+TOIL and overtime cannot both be calculated simultaneously, so as soon as you activate TOIL: 1) a TOIL leave type will be created in leave type configuration with balances automatically accrued based on overtime hours, and 2) existing overtime rules will be turned off.
+If your operations are based in the US, you may also select between state-by-state overtime presets from the top right present menu. 
+
+
+
+
+If you have employees with individualized contracts, so your organization requires many different overtime thresholds OR different overtime periods (specifically biweekly and monthly), AttendanceBot offers a separate method for creating employee-specific rules: employee profiles. To set up:
+
+Visit the custom field section of your personnel dashboard and browse the relevant fields for ""work hours"". You will want to ""activate"" any work hour periods you need, chosen between ""Daily Work Hours,"" ""Weekly Work Hours,"" ""Biweekly Work Hours,"" and ""Monthly Work Hours.""
+Every employee profile will how have a field for each activated work hour period. While each employee may utilize their own unique work hour settings, you will have to choose only one period per employee. No one employee may have multiple periods active at the same time - AttendanceBot can only calculate individual overtime on a single daily, weekly, biweeekly, or monthly basis.
+For each employee, you may now set threshold hours by going into their profile and inputting a numerical value into the appropriate work hour field. Alternatively, you may use the import/export page to quickly set thresholds in bulk.
+
+
+Note: this method works for both overtime and TOIL, and will override any office-level settings you've configured. However, TOIL must be turned on from the main overtime dashboard for this method to generate TOIL instead of overtime. 
+
+
+
+
+
+
+
+Whether universal, regional, or individual, configured overtime shows up in many places across AttendanceBot.
+
+The timesheet dashboard and timesheet editor will show overtime totals by day and by period
+All relevant spreadsheet reports will show overtime, including: the timesheet report, timesheet summary, payroll report, and payroll summary.
+If you've inputted employee wages, then overtime wages will automatically be calculated in payroll reporting at 1.5x.
+
+
+Here is a quick video tutorial for the same:
+
+
+
+
+
+
+
+
+For related reading, consider our article about overtime alerts.
+
+"
+How to schedule reports in AttendanceBot?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000116147,General,"To schedule reports in AttendanceBot, you need to follow the steps:
+
+
+
+1. Use the 'Settings' command as a direct message in the app & follow the link to the dashboard and navigate to the 'Reports' tab.
+
+
+
+2. Click on ""Schedule New Report""
+
+
+
+3. Select the report type, frequency of sending it out etc and click on schedule report.
+
+
+
+4. You'll get four options to set the frequency for scheduling the reports- First day of every month, Last day of every month, Fixed date of every month, & Day of the week.
+
+First day of every month: 1st of every month for data of the previous month.
+Last day of every month: 30th of every month for data of the current month.
+Fixed date of every month: Specific date you select for every month.
+Day of Week: Specific day of the week, under this you can choose every week, every 1st & 3rd week of the month, or every 2nd & 4th week of the month.
+
+
+
+
+
+
+Give this a try & if you face any challenges you can open a ticket for us on the helpdesk so that we can help you.
+
+"
+I don't use Slack or Microsoft Teams can I still use AttendanceBot?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000115575,General,"Yes you can! You can use AttendanceBot directly in your browser. Follow the Get Started button on our homepage and sign up using your email. Currently AttendanceBot on web is in beta and you can only use the Vacation Management features of AttendanceBot in your browser. 
+
+"
+"I'm getting an error message ""You are viewing the archives of a deactivated account"" while accessing AttendanceBot in Slack. What should I do?",,https://attendancebot.freshdesk.com/a/solutions/articles/17000098428,General,"If you're getting the message ""You are viewing the archives of a deactivated account"" or are unable to interact with AttendanceBot, it's likely that the person who installed AttendanceBot has removed the workspace, perhaps because they are no longer with the company.
+
+
+To address this, please head to www.attendancebot.com and click on the GET STARTED-->TRY FOR SLACK to install AttendanceBot in your workspace again. Once you successfully install the bot, you will become the new primary admin of AttendanceBot in your workspace.
+
+If you are unable to see AttendanceBot in Slack, please click on the Apps icon, on the left side of the screen, and search for AttendanceBot in the App Directory. You can then click on it and it will get added under the Recent Apps list.
+
+
+Note : Your data will be absolutely safe with us in such an event. Once AttendanceBot is reinstalled in the workspace, everyone can start interacting with it as usual. 
+
+"
+Inactivate users on AttendanceBot,,https://attendancebot.freshdesk.com/a/solutions/articles/17000093807,General,"1. To inactivate the non-relevant users in AttendanceBot, head to your Settings Panel by punching in the command settings to the AttendanceBot.
+
+
+2. Once you’re in the Settings Panel, please navigate to People-->Personnel page and you’ll see the list of users in your team. You can then inactivate the concerned user by switching the toggle to ""Inactive"" present against his/her name, in the Status column.
+
+
+
+
+3. To view the inactive members in your team, switch the toggle OFF for ""Show active Personnel only""
+
+
+4. You can switch the toggle back to ""Active"" to reactivate the respective user.
+
+
+
+"
+Onboarding,,https://attendancebot.freshdesk.com/a/solutions/articles/17000105283,General,"In 5 simple steps, you can start a super simple, yet really efficient onboarding experience for your employees. The best part is, it works entirely over Slack. 
+
+
+
+1. You can create onboarding tasks lists like 'Onboarding for designers' or 'General onboarding list for all employees that contain a list of tasks to be executed by them.
+
+
+
+2. Each task is a text with specific instructions as illustrated in the screenshot below.
+
+
+
+
+
+
+
+
+
+3. Every task list can be assigned to a set of new employees. 
+
+
+
+
+
+
+
+
+4. When an employee is assigned a new task list, they get a message in Slack informing them about it. They can then move through the list by marking the items as done and pull up the remaining tasks by sending 'my tasks'.
+
+
+
+
+5. Admins and HRs can click on the arrow next to the Onboarding task to monitor the progress of each employee and view the completion details of each task in a task list. 
+
+
+
+
+
+
+
+
+
+That's it, It is really this simple to assign and track tasks for a smooth new employee onboarding. 
+
+Please give this a try and let me know if you have any questions.
+
+"
+Reassign Shifts(Shift Swap),,https://attendancebot.freshdesk.com/a/solutions/articles/17000094157,General,"To Reassign Shifts in AttendanceBot, please refer to the following steps :
+
+1. Type shifts as a DM to AttendanceBot to view the shifts assigned to you. Each shift will have a Reassign button right below it.
+
+
+
+
+2. Click on the Reassign button and Select Colleague whom you want to trade this shift.
+
+
+
+3. After you have selected your Colleague, your shift swap request will go out to your manager for approval.
+
+
+4. Your manager can then either Approve/Deny the shift reassign request or Assign it to someone else.
+
+
+
+5. Once your manager Approves the request, your colleague will receive a notification, on Slack, that a new shift has been assigned to him/her.
+
+
+
+6. You will also receive a notification, on Slack, that your shift has been deleted.
+
+
+
+"
+Shift Attributes,,https://attendancebot.freshdesk.com/a/solutions/articles/17000094159,General,"To configure Shift Attributes in AttendanceBot, please head to your Settings Panel by typing settings to the bot. Once you are in, navigate to People-->Personnel--> Custom fields and then follow these steps :
+
+1. Create a new Shift Attribute of your choice by clicking on ""Add"" option. An attribute could be anything like an office, a role, a department, etc. Provide the Field name, and proceed with selecting type as ""Multi Dropdown"" and enter details like dropdown options, seen by etc. and hit ""Save""
+
+
+
+2. Once this is done, you will be notified that your attribute is created.
+
+
+
+
+
+
+
+
+
+2. Now head to Shift Management-->Shift Attributes to view the attributes. To view the instances of an attribute, click on the Expand button. You can also delete any instance by clicking on the delete icon against a particular instance.
+
+
+
+
+3. To configure the shifts for the users based on the attribute instances you created earlier, please make sure to assign these instances to the users by heading to People-->Personnel.
+
+
+
+CREATING OPEN SHIFTS (For help article on open shifts, please refer to this link)
+
+
+
+a) Head to ""Open Shifts"" column and hit ""Create New"".
+
+
+
+b) This will open another dialogue box where you can select the :
+
+Shift Name
+Start & End time
+Days
+Shift Attributes
+
+
+c) Enter the details and hit ""Save""
+
+
+
+
+
+CREATING NORMAL SHIFTS (For help article on creating shifts, please refer to this link)
+
+
+
+a) Head to Create & View Shifts and select ""Normal Shift"" from the drop down
+
+
+
+b)This will open another dialogue box where you can select the :
+
+Employee
+Date
+START TIME and END TIME 
+Instance(Attribute value)
+
+
+c) After entering the details hit ""Create"". You can then see the shift created for the user for the selected instance(Teams) in this case.
+
+"
+Shift Management(Create Shifts for your team),,https://attendancebot.freshdesk.com/a/solutions/articles/17000092410,General,"To create shifts for your team members in AttendanceBot, head to your Settings Panel by sending in the command settings to the bot and follow the link. Once you're in please navigate to Time Tracking-->Shift Management--> Create & View shifts page and follow these steps to create a new shift for a particular member of your team :
+
+1. Click on a date against a particular user for whom you wish to create a shift.
+
+2. A new dialogue box will open where you can set the shift START TIME and END TIME. You can also setup SHIFT REPEAT for the shift to repeat on particular day(s) for the next week or month.
+
+
+
+
+3. Once the shift is created in AttendanceBot, the user will be notified on Slack that a new shift has been assigned to him.
+
+
+
+4. You can see the Shifts as a Monthly, Weekly Or Daily view, by selecting the appropriate value from the View dropdown.
+
+
+
+
+
+
+
+Refer to this tutorial video for better understanding:
+
+
+
+
+
+
+Note : Once the shifts are created in AttendanceBot, you can also copy the shift to another user in your team
+
+"
+Time/Task tracking,,https://attendancebot.freshdesk.com/a/solutions/articles/17000115834,General,"Time Tracking 
+
+""in"" - this'll lets you to punch in @ current time stamp
+
+""out"" - this'll punch you out @ current time stamp
+
+
+
+Projects
+
+Once the projects and clients are setup (from AttendanceBot dashboard), admins can assign the project to specific people or everyone. Whenever these users punch in, they will have to pick a project/client from the drop-down that would be shown and hit ""confirm"" (slack) OR ""Ok"" (MS Team) to register their punches.
+
+
+
+
+
+Insert/Update/Delete a punch in or out The managers can head to AttendanceBot dashboard-->Time Tracking--> Edit Timesheet for the specific user. You can refer to point (8) for under this help article link.
+
+
+
+Alternatively you can type in any of these commands and follow the prompt: 
+
+
+""add punches @User""
+
+""edit punches @User""
+
+""delete punches @User""
+
+Slack:
+
+
+
+MS Team:
+
+
+
+
+
+
+
+Check current status of your employees
+
+You can either type in the command ""punch card"" OR access the ""Punch Board"" tab on the AttendanceBot dashboard to view the employees & their status
+
+
+
+
+
+Slack:
+
+MS Teams:
+
+
+
+
+
+AttendanceBot Dashboard:
+
+
+
+
+
+Communicate when you are out for lunch or on a break
+
+""lunch""
+
+""brb 10 min""
+
+""break 15 minutes""
+
+
+
+View Daily data
+
+""timesheet""- this'll show your current day data
+
+""weekly timesheet""- this will show you the weekly data of your timesheet
+
+""timesheet @User"" - managers can check timesheet data of their direct reportees, where @User is reportees slack username
+
+
+
+Timesheet report --> Downloadable as a CSV
+
+""timesheet report"" - creates a timesheet report for current day 
+
+""team timesheet report"" - this'll give a report that shows every punch in and out for every employee. Managers can run this report for their team and admins can run this for the entire company
+
+""timesheet report from 05-01 to 05-30"" - this will generate timesheet report from 05-01 to 05-30
+
+""team timesheet report from 05-01 to 05-30"" - this will generate team's timesheet report from 05-01 to 05-30
+
+
+
+Payroll report --> Downloadable as a CSV
+
+""payroll report from 05-01 to 05-30"" - this'll give a report that shows only the day's total time for every person on the team. Most used for doing payroll
+
+
+
+To understand how to access any and all kinds of report, you can also type in the command ""Report"" into the AttendanceBot. Please refer to this help link for more info.
+
+
+
+Overtime
+
+We do support overtime as well. Connect with us to let us know overtime needs and we will get it setup for your team.
+
+
+
+Channel notifications and other Settings
+
+The admin for the team can head over to the settings dashboard by typing ""settings"" and configure the channel notifications from the ""Notification"" section.
+Head to the ""General Time Setting"" section on the dashboard, the admin can configure punch in/out reminders, default lunch and break durations etc.
+If you want to enable specific shifts for employees, head over to the ""Shift Management"" page on the settings dashboard and click on the person for whom you want to setup a custom shift. Once set, the employee is reminded to punch in/out for their shift at the time of their shift.
+
+
+
+
+help article
+
+help article
+
+help"
+Update Employees Data using Import Team Data,,https://attendancebot.freshdesk.com/a/solutions/articles/17000124709,General,"AttendanceBot allows administrators to update employee profile information in bulk using the People>> Import Team Data section of the dashboard. This saves time and improves accuracy when first configuring your team.
+
+
+
+
+
+Since ""Import Team Data"" serves a dual import/export purpose, you can download to export and view personnel data, then after editing/repopulating employees details on the spreadsheet you can upload file to update AttendanceBot in bulk. 
+
+
+
+When first setting up your team, the most critical field to populate is manager email. Additional popular fields to complete are joining date, date of birth, department, and office, though infinite custom fields are possible once created from the personnel >> custom field menu.
+
+
+
+Important note - Do not add any rows or columns to the excel file downloaded from the dashboard as you are unable to create new fields using export/import. For this you can use the custom fields menu mentioned above.
+
+
+
+Let us know if you found this useful, feel free to write to us at sarah@harmonizehq.com in case you need more help with this topic.
+
+"
+What all can a manager do?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000118266,General,"1. A manager's job is to approve her reportee's leaves. They get an approval request when their reportee applies for time off that needs their approval or they get an FYI notification when their reportee submits a time off request that does not require an approval (like say a WFH or a sick leave). 
+
+
+
+2. For approving pending leaves: In case a manager has missed a leave approval notification, they can simply type ""pending leaves"" to quickly get a list of vacation requests pending their approval.
+
+
+
+Slack:
+
+
+
+
+
+MS Teams:
+
+
+
+
+
+G Chat
+
+
+
+3. Check reportees: A manager can look at their reportees by saying ""my reportees"" across any of the platforms.
+
+
+
+
+
+4. Team's Absence Report: They can look at their team's absence report by saying ""team report"" and specifying the department. 
+
+
+
+Slack:
+
+
+
+
+
+MS Teams:
+
+
+
+G Chat
+
+
+
+
+
+5. Team's timesheet report : They can access the team's time tracking report by saying ""timesheet team report"" by specifying the office, departments, projects etc and hitting ""Confirm"". This will generate a csv report which can be downloaded.
+
+
+
+Slack:
+
+
+
+
+
+MS Teams:
+
+
+
+
+
+G Chat:
+
+
+
+
+
+6. Absence or Timesheet for specific user : They can get a quick team absence summary for someone by saying ""summary @reportee"" and a quick timesheet report by saying ""timesheet @reportee"".
+
+
+
+Slack:
+
+
+
+
+
+
+
+
+
+MS Teams:
+
+
+
+
+
+
+
+
+
+G Chat
+
+
+
+
+
+
+
+
+
+7. Apply leave on employee's behalf: You can type the command like ""@reportee vacation tomorrow"" or simply type in the ""apply"" command and follow the prompt. (Please note ""Apply"" command works only with Slack)
+
+
+
+8. Add or edit punches for employee: 
+
+
+
+a) For adding punches - Simply head to the AttendanceBot dashboard-->Time Tracking-->Edit Timesheet. Select the date, the employee from the drop down.
+
+
+
+Click on ""Add punches""
+
+
+
+A dialogue box will open, where you can fill out the details of the Punch In-Out Date & Time and hit ""Save""
+
+
+
+
+
+
+
+b) For editing punches: Simply head to the AttendanceBot dashboard-->Time Tracking-->Edit Timesheet. Select the date, the employee from the drop down. 
+
+Select on the ""Expand"" option for the particular date
+
+
+
+
+
+Click on the pencil icon to edit the punches
+
+
+
+
+
+Now update the punches here as per your requirements and hit ""save""
+
+
+
+"
+What are the different roles?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000120820,General,"1. All users are considered employees. Before doing anything else, all employees have to first specify their manager. 
+
+
+
+2. Any one with reportees (who has been set by someone as their manager) is considered a manager. 
+
+
+
+3. Administrator - The person who added AttendanceBot to the Slack team is by default the team administrator. An administrator can control several team wide settings and is responsible for managing the subscription. To change this please reach the support team by saying ""dialm"".
+
+
+
+"
+What do different reports do?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000107023,General,"Download your team’s work hours and absence days easily with reports. Export them into Excel files and adjust according to your preferences.
+
+Within each report, you can filter by employee, office, or department and also set the time period you would like to see.
+
+
+
+Note that admins have access to reports of the entire team while managers can access time, absence, and payroll data for their reportees. Only admins and managers have access to advanced reporting. Employees can only generate their own time, absence, and payroll data.
+
+
+
+Scope of the report:
+
+a) My direct team: Only direct reportees
+
+b) Everyone: Everyone in the team
+
+
+
+Here’s the complete list of information available to you in the reports.
+
+
+
+Timesheet:Daily and total work hours.
+Start and End of work hours - When the user punched in and out.
+Duration: Total work hours.
+Daily overtime duration: The difference between the hours worked and the scheduled hours.
+Leave:All your absences in the given time period.
+Leave Type: The time off type taken by the user.
+Leave Duration: The time period for which the user has taken the time off.
+Payroll:Total hours to be billed.
+Total Day Duration: Total hours worked on that day.
+Shift timesheet:Total hours worked in shifts.
+Duration: Total hours worked in the shift by the user before punching out.
+Total Day Duration: Total hours worked in shifts allocated to the user.
+Daily overtime duration: The difference between the hours worked and the scheduled shift hours allocated to the user.
+
+
+ADVANCED REPORTS
+
+Timesheet Summary: Summary of your team’s work hours in the given duration.
+Total hours: Total hours worked by the user.
+OT: The difference between the hours worked and the scheduled work hours for the user.
+
+
+
+
+Leave Summary: Summary of time offs taken by your team in the given time period.
+Leave Balance: Unutilized time offs remaining in the current year.
+
+
+Payroll Summary: Summary of total hours billed for your team.
+
+
+Shift Hours:Total hours worked in shifts by your team.
+Shift hours: The total hours worked in shifts allocated to the user.
+
+"
+Work Model - Hybrid or Fully Remote,,https://attendancebot.freshdesk.com/a/solutions/articles/17000117213,General,"In the times of crisis, when the world is dealing with a pandemic - AttendanceBot can help you setup hybrid or remote model for your workplace. If someone falls sick, you can track who else was working in office with them on your calendar.
+
+
+
+Hybrid: Your team works from an office at least some of the time
+
+Fully Remote: All your team members work remotely and you don't have an office
+
+
+
+Hybrid:
+
+1. You can set up custom notifications/ reminders for your team. 
+
+
+
+
+
+This could be asking them to select their working location daily or posting their tasks for the day.
+
+
+
+
+
+2. You can also specify capacity for individual offices, to have better control over how many people would be allowed in the office at a time. Simply click on Custom office capacity and update the limit.
+
+
+
+
+
+Fully Remote:
+
+
+
+Set up a morning reminder for people to apply work from home or work from office. Under Custom Notifications, click on ""Create New"" to set up these message/reminder.
+
+
+
+
+
+
+
+
+
+
+
+Give this a try & let us know if you face any challenges setting these up."
+How do you pass hours for contractors from AttendanceBot to Gusto?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000119375,Gusto,"How to pass hours from AttendanceBot to Gusto for contractors you ask?
+
+
+
+1. Download hours CSV from AttendanceBot and upload it to Gusto to process payroll for hourly wage contractors.
+
+
+
+2. Head to Settings -> Gusto -> Sync 1099 Employees. You’ll see contractors matched between AttendanceBot and Gusto (contractors are matched on the basis of their email address). In case a contractor from Gusto is not matched to the corresponding contractor on AttendanceBot, select the same under “Unmatched Contractors” and match them.
+
+
+
+
+
+
+
+3. Select the pay period for which you wish to generate their hours and click “Generate report”. Note that hours are populated only for hourly wage contractors.
+
+
+
+4. Upload the hours CSV to contractor payroll on Gusto to process their payroll.
+
+
+
+
+
+Give this a try & let us know if you face any challenges setting these up.
+
+"
+How to send hours to Gusto for payroll?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000112898,Gusto,"AttendanceBot is a time-tracking and vacation management tool that tracks PTO and vacation time for your employees as well as the hours worked. 
+
+
+
+With a simple “in” and “out” messages, you can log in your hours and even track the time spent on projects. Request time-offs by typing “apply” and update your vacation status. 
+
+
+
+By integrating AttendanceBot and Gusto, you can run payroll for the hours worked by your employees.
+
+
+
+Connect AttendanceBot to Gusto
+
+
+
+Head to the settings page on AttendanceBot by typing ""settings"" on your chat app (Slack, MS Teams, or Google Chat).
+Click Integrations---->“Integrate with Gusto” to connect a pre-existing account or sign up for a new Gusto account.
+Enter Gusto credentials and Authorize.
+Once successful, you’ll get a confirmation message.
+
+
+If you are new to Gusto, you can also create an account on Gusto by clicking on “Create a new account”.
+
+
+
+Map employees from Gusto to AttendanceBot
+
+
+
+From your company, review the list of employees you’d like to sync to AttendanceBot.
+Sync employees and map them to AttendanceBot.
+Unmapped employees from Gusto are shown on the right side of the screen where you can select and map any of the employees.
+
+
+Send timesheet data to Gusto
+
+
+
+On the Payroll tab, select the pay period that you’d like to sync to Gusto.
+Click on the pay period and see the employee hours.
+Click on “Sync” to send the hours to Gusto.
+Once done, you won’t be able to edit hours on AttendanceBot.
+Click on ""Re-import data from Gusto"" to fetch the updated information on the Gusto tab.
+
+
+Note: Gusto integration is available on the pro plan.
+
+
+
+Connecting Gusto to Slack/MS Teams/Google Chat
+
+
+
+Go to the Settings sections and click the Integrations tab.
+Click Provisioning apps under “Featured”.
+Choose the software you’d like to connect and click ""Connect"".
+Enter login credentials.
+Allow Gusto access to the software.
+Once connected you’ll have the option to Match your accounts, which will match your existing employee accounts in Gusto with the accounts in the third party app. 
+"
+How can I get help from AttendanceBot support?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000118263,Support,"We're here to help! Our support team is entirely in-house to ensure you receive the best possible assistance.
+
+
+
+- You can drop us an email at support@attendancebot.freshdesk.com or email our support lead directly at sarah@harmonizehq.com.
+
+
+
+- If you want to raise a ticket, just send 'dialm' as a direct message to AttendanceBot and click on ""Open a ticket.""
+
+
+
+
+
+Insider Secret: we built 'dialm' internally and our whole team will see your ticket in our Slack. We might not be able to respond immediately, but we'll start a ticket and reply as soon as we can!
+
+
+
+- You can chat live with support using the bottom right chat bubble located on the AttendanceBot dashboard and our website.
+
+
+
+- You can browse our full article database here in Freshdesk (also accessible from ""support"" in the dashboard).
+
+
+
+- Our founders would love to talk to you! You can say share ideas and feedback with them at hi@harmonizehq.com.
+
+"
+How do I integrate Jira?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000134396,Support,"By integrating AttendanceBot and Jira, you can record and monitor time spent on Jira projects and tasks from directly in Slack or Microsoft Teams. AttendanceBot will automatically identify when new projects or tasks are created in JIRA, and create corollary projects that relevant employees will see when they clock time to a project in Slack/Teams. 
+
+
+
+To integrate your Jira account, please head to the integrations tab on the settings dashboard and select Jira. All you'll need to do is enter your API key and sub domain and we'll handle the rest!
+
+(You can find your API key by opening your Jira account --> manage account --> security --> create and manage API tokens)
+
+
+
+
+
+
+
+After integration is successful, you'll have a choice to link JIRA projects or tasks with AttendanceBot project or subproject levels to automatically create and assign projects/tasks to your employees. 
+
+
+
+If a project/task is created in JIRA, it is captured by AttendanceBot and any relevant team member clocking time to projects will have the new project/task available to log time in Slack simply by being created in JIRA.
+
+
+
+To record time, they'll simply type ""in"" as a DM to AttendanceBot and select the pre-populated project and tasklist they are working on. To switch projects/tasks, another simple ""in"" is all they need, and to punch out entirely just a quick ""out"". 
+
+
+
+
+
+Note: If you can't find the JIRA tab on your AttendanceBot dashboard, write us a note and we're happy to activate!
+
+"
+Can a manager get an alert for every Punch In & Punch Out of their reportee?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000116821,Teams,"1. Sure, managers can be alerted by AttendanceBot of every punch in and punch out of their reportees. Simply head to AttendanceBot dashboard-->Notifications-->Direct Notifications and click on Direct Notification Settings.
+
+
+
+2. Switch the toggle ON for the ""Manager Notifications""
+
+
+
+"
+Can I get reminded to punch in or out if I forget to do so?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000116822,Teams,"Absolutely. AttendanceBot can remind you to punch in or punch out in case you forgot to do so during office working hours and are not on leave on that day. 
+
+
+
+1. You can specify the time for both punch in and punch out reminders. This reminder would go to all members of the MS Teams team at their respective local time.
+
+
+
+2. To enable the punch reminder, simply head to Settings->Basic Settings and scroll down to the Time Settings.
+
+
+
+Now switch the toggle from ""Inactive"" to ""Active""
+
+
+
+
+
+Click on the pencil icon and update the setting as per your requirement
+
+
+
+
+
+
+
+3. You can also choose to automatically punch out people (as opposed to simply reminding them of it by enabling and setting an ""Auto Punch Out"" time)
+
+
+
+Admins can head to Time Tracking-->General Time Settings & set the auto punch out time as per your requirement.
+
+
+
+"
+Can I round my punch timings to the nearest 15 min?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000116985,Teams,"Surely, you can! Just head to your settings panel by typing 'settings' -->Time Tracking--> General Time Settings and find the ""Round to the nearest minute"" option and set it to whatever you need. 
+
+
+
+
+
+
+
+Once this is set, say to 15, any punch in or out time will be rounded to the nearest 15 min, so a punch in at 9:27 will become 9:30 and any punch out at 9:06 will become 9:00. 
+
+"
+Does AttendanceBot produce payroll reports?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000116986,Teams,"1. Managers can download the report by simply typing in the command 'report' into the AttendanceBot and following the link to the dashboard. Select the report type as ""Payroll Report"" or ""Payroll Summary Report"" from the drop-down as per your requirement & enter details like report type, duration, employees, and hit ""Generate"".
+
+
+
+
+
+
+
+The report would look something like this: 
+
+
+
+
+
+
+
+We are also happy to customise your team's payroll report as per your needs. Just type 'dialm' and get in touch with our customer success team to learn more about this.
+
+"
+How can a manager apply for time off for their reportee?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000115958,Teams,"1. Managers can simply type in the command ""@Username"" followed with the leave type name, the date and hit ""confirm""
+
+
+
+
+For stepwise guide on how to apply for leaves, you can refer to this article.
+
+
+
+2. Since a manager is applying directly on behalf of the reportee, there is no other approval needed and the time off gets recorded once the manager confirms it.
+
+"
+How can I apply for a time off/leave in Microsoft Teams?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000067588,Teams,"1. User can simply type in the leave type name, followed with the date and hit ""confirm""
+
+
+
+
+
+2. Alternatively they can apply by using conversational approach as well. Few examples are: 
+
+WFH tomorrow
+Sick - Omitting a specific date is assumed to be a request for 'today'
+Vacation 05/04 to 05/07 - this is a request for 4 days of time off including 4th and 7th of May
+Working remotely this friday
+Working from London Office next week - This means you are planning to work from a remote week for the entire next week.
+
+
+
+
+
+
+
+
+Tedious details follow. 
+
+
+
+Simply say 'leave', 'vacation', 'time off' etc to denote a vacation or time off, 'sick leave' to denote a sick day and 'wfh' or 'working from home' to denote working from home.
+
+
+
+3. You can specify the start date and end date in different formats
+
+Numerical form MM-DD or MM/DD. 
+You can phrases like 'today', 'tomorrow', 'day after tomorrow', 'next week', 'last Friday', 'this Tuesday'. 
+You can say ""Jan 30"" or ""March 21, 2021""
+The AttendanceBot would verify the actual date with you before recording your leave request.
+
+
+
+You can also refer to this short video to quickly understand how to apply for a time-off
+
+
+
+
+Note: 1. Here is how you can apply for half days and hourly time offs.
+2. Here is how you can set up different leave types for your team. 
+
+"
+How can I avail time-off-in-lieu?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000116196,Teams,"Time off in lieu is where employers agree to give paid time off in lieu of overtime hours worked by employees instead of extra pay. 
+
+
+
+Setting up Time-off-in-lieu
+
+
+
+Head over to Settings -> Time Tracking -> Overtime and enable the set the toggle ACTIVE for “Time off in lieu (TOIL)"" option to allow team members to avail time off in lieu of overtime hours. 
+A new leave type “toil” will be created for your team as soon as you enable Time off in lieu. 
+
+
+
+Define the number of hours beyond which an employee starts working overtime hours by creating overtime rules for your team. 
+
+
+Note: Only daily and weekly overtime rules are considered to avail time off in lieu of overtime. Overtime hours worked by employees are added to “toil” balance. 
+
+
+
+Availing toil hours
+
+
+
+To avail time off in lieu of overtime, simply type “Flexi Time for time-duration” or ""Toil for time-duration"" here you enter the hours you wish to apply time-off for.
+
+
+
+
+
+
+Viewing toil hours
+
+
+
+Employees can check the number of hours they can avail in lieu of overtime by typing “balance”.
+"
+How can I avail time-off-in-lieu?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000116987,Teams,"Time off in lieu is where employers agree to give paid time off in lieu of overtime hours worked by employees instead of extra pay. 
+
+
+
+Setting up Time-off-in-lieu
+
+
+
+Head over to Settings -> Time Tracking -> Overtime and enable the set the toggle ACTIVE for “Time off in lieu (TOIL)"" option to allow team members to avail time off in lieu of overtime hours. 
+A new leave type “toil” will be created for your team as soon as you enable Time off in lieu. 
+
+
+
+Define the number of hours beyond which an employee starts working overtime hours by creating overtime rules for your team. 
+
+
+Note: Only daily and weekly overtime rules are considered to avail time off in lieu of overtime. Overtime hours worked by employees are added to “toil” balance. 
+
+
+
+Availing toil hours
+
+
+
+To avail time off in lieu of overtime, simply type “Flexi Time for time-duration” or ""Toil for time-duration"" here you enter the hours you wish to apply time-off for.
+
+
+
+
+
+
+Viewing toil hours
+
+
+
+Employees can check the number of hours they can avail in lieu of overtime by typing “balance”. 
+
+
+"
+How can I edit my punch in/out time?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000121301,Teams,"You need to check with your employer if they have switched on the permission that allows you to edit your timesheet. If the answer is yes, you can edit your clocks using the settings panel. 
+
+
+
+Here are the steps on how can you edit your punches:
+
+
+
+
+
+1. Just type “edit punches” via DM to AttendanceBot and follow the URL prompted
+
+
+
+
+
+
+
+2. Once you are on the dashboard, head to the ""Your Timesheet"" section —> select the date and click on the ""Expand” option.
+
+
+
+
+
+3. Click on the pencil icon to edit the punches
+
+
+
+4. Now update the punches here as per your requirements and hit ""save""
+
+
+
+
+
+
+
+
+
+That’s it! You have edited your timesheet :)
+
+
+
+Here is a quick video for the same: 
+
+
+
+
+
+
+
+
+Side note: If you are an admin of the account and wish to edit your punches, just click here for the steps"
+How can I integrate my calendar in Microsoft Teams?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000067592,Teams,"AttendanceBot easily integrates with your Google or Outlook calendar. You'll have the option of subscribing a public calendar to view your team's leave on a shared calendar, or integrating with a personal calendar to automatically set OOO and block unavailable time based on requested leave.
+
+
+
+To integrate, simply message ""cal"" as a DM to AttendanceBot and follow the prompts.
+
+
+
+
+
+
+
+For personal calendar integration, which allows you to automatically set OOO and block time in Outlook or Gcal, select ""Enable"" for the appropriate personal calendar and follow the link provided. This will walk you through an automatic sync process with your calendar provider.
+
+
+
+For public calendar integration, which subscribes a chosen calendar to the AttendanceBot calendar, select ""get link"" and copy the calendar link displayed. Then follow the appropriate steps for your calendar type:
+
+
+
+Apple Calendar
+
+Open Apple Calendar and press ⌘-Option-S or select “New Calendar Subscription” from the “File” menu
+Paste the URL and click “Subscribe”
+In the following dialog, select “Every Hour” from the “Auto-refresh” dropdown in order to keep the calendar current
+
+Google Calendar
+Go to your Google Calendar
+Click the down arrow next to “Other calendars” and select “Add by URL”
+Paste the URL and click “Add calendar”
+
+Office 365/Outlook 365
+Sign in to Office365
+Click on the “Other Calendars” menu, and choose “Open Calendar”
+Enter the URL into “Internet Calendar” and click “Open”
+
+Outlook.com
+Go to outlook.com calendar and log in
+Click “import” at the top of the window
+Paste the URL into “Calendar URL” and enter a name into “Calendar Name”
+Click “Subscribe”
+
+
+Outlook 2016/2013
+
+Switch to the calendar module.
+In the Manage Calendars group on the toolbar, click Open Calendar.
+Select the From Internet option.
+Provide the path of your Internet calendar file.
+Click OK.
+
+
+Here is a quick video for your reference:
+
+
+
+
+
+Note: All calendars use local time of the user as determined by Microsoft Teams. If you are a distributed team with colleagues in different time zones, you will see their time off converted to your local timezone."
+How do I delete a leave applied by a member of my team?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000115933,Teams,"1. To delete a leave applied by a member of your team, please type the command ""delete @username"" to the AttendanceBot where ""@username"" is the name of the team member.
+
+
+
+2. You will see the list of approved leaves for that user, both past and upcoming, with a Delete button right below each leave.
+
+
+
+3. Click on the Delete button, for the leave you wish to delete and you would receive a notification which looks like this:
+
+"
+How do I edit punch in/out time for my employees?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000119218,Teams,"1. Simply head to the AttendanceBot dashboard-->Time Tracking-->Edit Timesheet. Specify the start date, end date, and select the employee name from the drop down and hit submit.
+
+
+
+
+
+
+
+3. Select the required date, and click on the ""Expand"" option for the particular punch you want to update
+
+
+
+
+
+4. Click on the pencil icon to edit the punches
+
+
+
+
+
+5. Now update the punches here as per your requirements and hit ""save""
+
+
+
+Please note employees will be able to update the punches, only if the admin has set ""Allowed self editing of punches"" settings true.
+
+
+
+
+
+You can also refer to short video to understand this: 
+
+
+"
+How do I find my missing employee profile in AttendanceBot (MS Teams)?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000091413,Teams,"To locate the missing users in AttendanceBot, head to your settings dashboard by sending ""settings"" command to the AttendanceBot and follow the link. Once in, please navigate to the People--->Personnel page and follow the steps below :
+
+
+1. If the user is not visible in the list, she may be inactive. To reactivate the user, switch the toggle OFF for ""Show Active personnel only"" and view all the profiles including the Inactive ones 
+
+
+
+2. Search for the particular user, switch the toggle button to ""Active"", hit save and the user will be activated.
+
+
+
+3. To confirm, you can switch the toggle ON for ""Show Active personnel only"" and see if the user is reflecting under it.
+
+
+4. If the user is still not visible, click on the RE-SYNC button on the top right hand side of the Personnel page.
+
+
+5. You will receive a message stating that the sync is in progress.
+6. As soon as the sync completes, AttendanceBot will notify you of the same on your MS teams.
+
+
+
+MS Teams: 
+
+
+
+
+
+If both these steps don't work, please contact us at open a ticket with us by typing ""Dialm"""
+How do I remove AttendanceBot from a specific team?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000104611,Teams,"To remove AttendanceBot from one specific team, you can follow these steps:
+
+1. Click on the three dots ""..."" in front of the Team from which you want to remove AttendanceBot.
+
+
+2. Click on Manage Team from the list of options.
+
+
+3. Click on the Apps tab and then click on the Remove button (represented by a trash can) to remove AttendanceBot from that team.
+
+
+
+To uninstall AttendanceBot completely from MS Teams (across all teams), please refer to this article."
+How do I uninstall AttendanceBot from Microsoft Teams?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000104612,Teams,"To remove AttendanceBot from Microsoft teams, please follow these steps:
+
+1. Click on the three dots ""..."" icon on the left sidebar.
+
+
+2. Right click on the AttendanceBot app which will show you three options - Pin, Block and Uninstall.
+
+
+
+3. Click on Uninstall to remove AttendanceBot from your team.
+
+
+If this fails to fully uninstall AttendanceBot from your MS Teams, you can remove it from each team where you have invited AttendanceBot. Refer to this article on the process of removing AttendanceBot from a specific team."
+How do I view the current punched in/out status of my team,,https://attendancebot.freshdesk.com/a/solutions/articles/17000116823,Teams,"To view the list of people currently punched in or out, simply type 'punch card'. It is a realtime view of your team's punch status. 
+
+
+
+
+
+Alternatively, managers can head to AttendanceBot dashboard-->Time Tracking-->Punch board to see the status of their employees.
+
+
+
+
+
+
+
+
+
+Give this a try & let us know if you face any challenges setting these up.
+
+"
+How to add users to AttendanceBot in Microsoft Teams?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000120333,Teams,"To add a new user to AttendanceBot you need to first add that user as a member of the MS Teams Team where the bot is installed. If you're a team owner in MS Teams, you can add someone to a team. If you're not a team owner, you can submit a request and the team owner can then accept or deny it.
+
+
+
+Step 1: If you're a team owner, go to the team name in the teams list and click More options More options button > Add member.
+
+
+
+
+
+Step 2: Start by typing a name, distribution list, security group, or a Microsoft 365 group. You can also add people outside your org as guests by typing their email addresses.
+
+
+
+Step 3: When you're done adding members, select Add. You can make someone a team owner by selecting the down arrow next to Member. 
+
+
+
+
+
+Step 4: Select Close. People that you add to a team will receive an email letting them know they are now a member and the team will appear in their teams list.
+
+Once done AttendanceBot will acquire that new user & then the team admin can introduce him to the bot from the People >> Invite page of the settings panel. Here's a screenshot of the settings panel for your reference.
+
+
+
+
+
+"
+How to apply for half days leaves or hourly time offs on Microsoft Teams?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000115956,Teams,"1. User can simply type in the leave type name, followed with the time and date & hit ""confirm""
+
+
+
+
+
+2. To apply for a half day, you can type phrase like "" second half leave"" followed by the date.
+
+
+
+
+
+3. You can also provide a remark for these leaves by selecting the option ""Add a comment"" and following the prompt
+
+
+
+Enter the remark into the AttendanceBot and then hit ""confirm"""
+How to change Timezone in AttendanceBot for Microsoft Teams?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000114559,Teams,"Users can set or change their timezone in AttendanceBot via the profile page of the settings dashboard, here's how you can do it:
+
+
+
+Step 1: Type the 'Profile' command as a direct message in AttendanceBot and follow the link. 
+
+
+
+
+
+
+
+Step 2: Once you are on the dashboard, there's a timezone drop-down menu in which you can choose and change the timezone.
+
+
+
+
+
+
+
+
+
+Step 3: Once the desired timezone is selected, ensure to click on the 'Save' button at the bottom of the dashboard.
+
+
+
+
+
+
+
+
+
+This will change your timezone in AttendanceBot, similarly, if you are the admin of your team & you wish to set the timezone for your employees you can just head to the People >> Personnel Page of the settings panel and open the profile page of each user & update the timezone individually.
+
+
+
+
+
+
+
+
+
+Give this a try and if you face any challenges feel free to log a ticket for us by typing 'Dialm' in the bot so that our customer success team can help you.
+
+"
+How to check your leave balance on Microsoft Teams?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000115934,Teams,"1. To check the number of leaves available with you, just type balance to the bot and the leave balance for each leave will be displayed along with details like ""Carry forwarded"", ""Days Taken"", ""Accrued"" and the ""Annual count"" etc.
+
+
+
+The leaves for which the accruals have not been set, will be displayed at the end under ""Leave types with unlimited balance""
+
+2. As a manager, you will have access to the leave balances of any member in your team.
+
+Just type balance @username to the bot to access that user's leave balance information.
+
+
+
+"
+How to clock-in and clock-out in AttendanceBot,,https://attendancebot.freshdesk.com/a/solutions/articles/17000119202,Teams,"Super easy to punch in and out with Attendanceo
+
+
+
+1. When you are starting with your work, simply clock-in by typing the command ""in"" into the AttendanceBot
+
+
+
+
+
+2. To clock-out, simply type in the command ""Out"" into the AttendanceBot
+
+
+
+
+
+You can also refer to short video to understand this: 
+
+
+"
+How to create channel announcements/notifications for upcoming leaves?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000067593,Teams,"1. AttendanceBot can keep your team on the same page by announcing the upcoming vacations for people. 
+
+
+
+Whose data is announced on a channel?
+
+Say you have 2 teams,
+
+Engineering - Adam, Liz, Barry
+Marketing - Garry, Arnold
+
+
+and 3 channels
+
+General - Adam, Liz, Barry, Garry, Arnold
+OOT - Adam, Liz, Barry, Arnold, @attendancebot
+Fun - Adam, Liz, Barry, Garry, Arnold
+
+
+a) In this case since @attendancebot is in only one channel, it will announce vacation requests and upcoming leaves in OOT for the entire company.
+
+
+
+b) If @attendancebot gets invited into Fun channel as well (so now its present in 2 channels). It will start behaving differently and only announce leaves of Adam, Liz, Barry and Arnold in OOT and Adam, Liz, Barry, Garry, Arnold in Fun.
+
+
+
+c) If you want to announce attendance for each team separately, please create multiple channels for different teams and invite @attendancebot there. It will start notifying those channel with upcoming vacations of people belonging to that channel. Note again that if attendancebot is present only in 1 channel, it will always announce the vacations of all users in that channel even if a given user is not present on the channel.
+
+
+
+What channel notification will actually get posted to the channel
+
+Example:
+
+At 9am (on working days), AttendanceBot announces the day's vacations
+At 4pm (on working days except Friday), AttendanceBot announces following day's vacations
+On Friday at 4pm, AttendanceBot announces following week's vacations
+P.S. The notification time and the nature of the notification can be customised according to the user's need. 
+
+
+
+
+
+
+
+The channel notification will only mention the availability information of the person and not give away the exact vacation type or comments that the employee gave when applying for leave to protect everyone's privacy. If you'd like us to change this for your team, please type 'dialm' to connect with our live support and tell us.
+
+"
+How to create Holidays for your team on Microsoft Teams?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000115957,Teams,"Head on to this link or follow the steps below.
+
+1. Type in the command ""settings"" into the AttendanceBot and follow the link shared with you
+
+
+
+2. Head to Vacation Management-->Calendar-->Holidays to create holidays for your team. 
+
+
+
+If you have people working in different countries or offices, you can also create office and country specific holidays. This way people in a specific country/office will only see holidays specific to that country/office. 
+
+
+
+If you have multiple offices across each country and all offices have different holidays then choose the office while creating the holiday. For more details please read more about multi office holidays. 
+
+
+
+3. Once created, your team can lookup upcoming holidays by typing 'holidays' and plan their vacations accordingly
+
+"
+How to generate reports on Microsoft Teams?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000115932,Teams,"1. You can simply generate any kind of report by typing in the command ""Report"" into the AttendanceBot
+
+
+
+2. Follow the prompt and this will land you to the ""Report"" page on the AttendanceBot. Select the Report type as per your requirement, specify details like duration etc and hit ""Generate""
+
+
+
+
+
+4. The report would be generated and you would receive a message from the AttendanceBot which would look something like this:
+
+
+
+5. Once you click on the link, the report would be downloaded."
+How to get a quick summary or a report for your team?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000067591,Teams,"There are 2 ways to look at a absence data
+
+Summary - these are quick summaries that are shown in the app.
+Reports - these are elaborate reports that get generated as a CSV file that can be downloaded and manipulated using a spreadsheet program like MS excel or Google Sheets.
+
+
+
+
+
+
+
+
+Summary
+
+To get your absence summary, say ""summary""
+To get a quick summary of a colleague or a reportee say ""summary @UserName""
+While managers can see leave types for their reportees along with recent as well as upcoming leaves, when looking at your colleagues leaves, you would only get to see upcoming leaves/wfh without knowing the exact leave types.
+Reports
+
+To get your absence report for the current month say ""report"". This report will include the leaves that you have approved and that of your reportees as well (if you are a manager). 
+To get your absence report for all time, simply type ""full report"".
+Managers can get their team's current month's report by saying ""team report"" and their team's report for all time by saying ""full report"".
+
+If you want a detailed report, this article will help you with that. "
+How to punch for Lunch and Breaks on Microsoft Teams?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000116984,Teams,"To apply for a break in AttendanceBot, just type break for 10 mins or brb in 10 mins. You can set the duration as per your convenience.
+
+
+
+
+
+Once your break time is over, just type the 'IN' command in AttendanceBot to clock back in.
+
+
+
+
+
+
+
+To apply for lunch in AttendanceBot, just type lunch to the bot and you will receive a confirmation from the bot. The lunch duration can be set from your Settings Panel. You can refer to this article for the process of setting up lunch hours.
+
+Note: If you cut short your break or lunch time, you can punch back in anytime(by typing in to the bot) and your lunch/break duration will be calculated accordingly.
+
+"
+How to punch into projects with AttendanceBot,,https://attendancebot.freshdesk.com/a/solutions/articles/17000119216,Teams,"1. When you are starting with your work, simply clock-in by typing the command ""in"" into the AttendanceBot. If you have been assigned project/s, AttendanceBot will prompt with a dropdown to select one.
+
+
+
+
+
+2. Select the project as per your requirement. You will notice that the prompt by AttendanceBot will update
+
+
+
+3. Hit ""OK"" to confirm the punch and you will notice that the prompt by AttendanceBot will update
+
+
+
+
+
+
+
+4. If you wish to switch to another project, simply type in the command ""Out"" to clock out from the current project
+
+
+
+5. Repeat the process, and type the command ""in"" and select a different project to continue
+
+
+
+You can also refer to short video to understand this: 
+
+
+
+"
+How to set up Manager for leave approvals in Microsoft Teams?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000067589,Teams,"1. When you create your first vacation request, @attendancebot will ask you to state the username of your manager. Please note the username is '@' followed by the username you use to chat with your manager on Teams. You can also change your manager anytime via 'change manager'.
+
+
+
+
+
+
+
+2. Once set, your subsequent vacation requests will go to your manager for approvals.
+
+
+
+
+
+
+
+3. Leave types like ""Working from Home"", ""Working Remotely"", ""Working from office"" do not require approval and populate as an FYI notification to the managers.
+
+"
+How to set-up different leave types on Microsoft Teams?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000067590,Teams,"1. AttendanceBot comes with 6 different default vacation types. 
+
+
+
+Vacation
+
+Sick
+
+Traveling
+
+Working from home
+
+Working from office
+
+Working remotely
+
+
+
+2. Team admins can of course edit them and create many more as per their team's needs by heading to the AttendanceBot dashboard-->Vacation Management-->Leaves-->Leaves types & quotas section. You can also set whether you need an approval process for any specific leave types.
+
+
+
+3. You can simply type in the leave type name, followed with the date and hit ""confirm""
+
+
+
+
+
+4. Alternatively you can also type in commands like 'on vacation on 4th of May' to request time off.
+
+You can also provide a remark by the ""Add comment"" section
+
+
+
+You can find more info by typing 'help' and selecting the topic you need help on.
+
+
+
+If you have limited time off policy and would like to set up an accrual logic for your employees, this article would help you set it up or if you need more assistance, please write to sarah@anaek.com and we'll help you set it up.
+
+"
+Installing AttendanceBot in Microsoft Teams,,https://attendancebot.freshdesk.com/a/solutions/articles/17000101416,Teams,"Here is a step by step guide to installing Attendancebot in MS Teams
+
+Open Microsoft Teams and click on the ""Apps"" button on the lower-left corner of the sidebar and search for AttendanceBot.
+
+
+
+
+
+
+
+
+Search for ""Attend"" and you will see ""AttendanceBot"" there.
+Click on the AttendanceBot App card and then click on the down arrow to expand the ""Add to a team"" button. This is important. You have to select ""Add to a team"" option so that other members of your team can also use AttendanceBot.
+
+
+
+
+If you have multiple teams, it is preferred that you create a new single global team that has everyone in the organization in it. That is the preferred method. 
+If cannot create a new global team, then you will need to add ""AttendanceBot"" to all the teams so that everyone in the company can use it.
+
+
+Note: If other colleagues are not able to use AttendanceBot, then its likely that you added it to the wrong team. Please follow the above steps and add it to the right team which has all of the folks who would be using AttendanceBot.
+
+
+
+Here is a quick video fro the same:
+
+
+
+"
+Where can I find new users on AttendanceBot in MS Teams?,,https://attendancebot.freshdesk.com/a/solutions/articles/17000113638,Teams,"Users don’t show up on our Personnel page usually because AttendanceBot has not been installed in the team scope.
+
+You can sort this out by adding the bot to your team scope so that everyone in that Microsoft Teams team will be able to use it. 
+
+
+
+To do so you have to follow the steps mentioned below:
+
+1. Click on the three-dot radio button placed next to your team name & click on the Manage team
+
+
+
+2. Once you are on the manage team page go to the Apps tab & click on the More Apps button
+
+
+3. This will open up the app directory of Microsoft Teams where you can search for AttendanceBot and add it to the team
+
+
+
+This will enable all your team members to access AttendanceBot. 
+
+
+Once done, you can check on your People>>Personnel page of AttendanceBot if the users are acquired or not, if not please log a ticket for us by typing 'Dialm' in the bot so that our customer success team can help you.
+
+"
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
